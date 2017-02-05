@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#\n# This is the server logic of a Shiny web application. You can run the \n# application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(httr)\nlibrary(jsonlite)\nsource(\"www/helpers.R\")\n\ndata <- getData()\n\n# Define server logic required to draw a histogram\nshinyServer(function(input, output) {\n   #1,2,3,4,6,7,8\n  output$tbl = DT::renderDataTable({\n    datatable(\n      data,\n      options=list(  pageLength=100, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),\n      \n      # first element is offset for hidden row identifier\n      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','m','Status','','','','','',''),\n\n      )\n})\n  })\n",
+    "created" : 1486273684123.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4033582582",
+    "id" : "9C65F71A",
+    "lastKnownWriteTime" : 1486281452,
+    "last_content_update" : 1486281452804,
+    "path" : "C:/Users/nathan/Desktop/AnimalViz/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -20,10 +20,11 @@ shinyServer(function(input, output) {
   output$tbl = DT::renderDataTable({
     datatable(
       data,
-      options=list(columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),
+      options=list(  pageLength=100, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),
       
       # first element is offset for hidden row identifier
-      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','m','Status','','','','','','')
-    )
+      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','m','Status','','','','','',''),
+
+      )
 })
   })

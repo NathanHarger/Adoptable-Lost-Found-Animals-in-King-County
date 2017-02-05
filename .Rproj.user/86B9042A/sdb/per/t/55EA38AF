@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# gets animal data from King County website\ngetData <- function() {\n  url <-  \"https://data.kingcounty.gov\"\n  path <- \"resource/murn-chih.json\"\n  raw.result <- GET(url=url,path=path)\n  raw.result.content <- rawToChar(raw.result$content)\n  content <- fromJSON(raw.result.content)\n    return(content)\n}\n\n\n\n",
+    "created" : 1486280352385.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4291359351",
+    "id" : "55EA38AF",
+    "lastKnownWriteTime" : 1486270275,
+    "last_content_update" : 1486270275,
+    "path" : "C:/Users/nathan/Desktop/AnimalViz/www/helpers.R",
+    "project_path" : "www/helpers.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
