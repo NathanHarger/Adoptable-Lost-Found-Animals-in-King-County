@@ -9,20 +9,31 @@
 #
 
 library(shiny)
+library(leaflet)
 library(DT)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  
-  # Application title
   titlePanel("King County Lost, Found, Adoptable Pet Data"),
-  
   sidebarLayout(
-    sidebarPanel(
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-      DT::dataTableOutput('tbl')
+  
+  sidebarPanel(
+  ),
+  mainPanel(
+    tabsetPanel(
+  # Application title
+
+  
+  tabPanel("Map",leafletOutput("mymap")),
+  
+  tabPanel("Table",dataTableOutput('tbl'))
     )
+
   )
-))
+
+    
+)
+)
+  
+    
+    
+)

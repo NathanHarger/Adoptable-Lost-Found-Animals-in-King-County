@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(leaflet)\nlibrary(DT)\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  titlePanel(\"King County Lost, Found, Adoptable Pet Data\"),\n  sidebarLayout(\n  \n  sidebarPanel(\n  ),\n  mainPanel(\n    tabsetPanel(\n  # Application title\n\n  \n  tabPanel(\"Map\",leafletOutput(\"mymap\")),\n  \n  tabPanel(\"Table\",dataTableOutput('tbl'))\n    )\n\n  )\n\n    \n)\n)\n  \n    \n    \n)\n",
+    "created" : 1486429403747.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1499359681",
+    "id" : "3CCD7AB",
+    "lastKnownWriteTime" : 1486441369,
+    "last_content_update" : 1486441369294,
+    "path" : "C:/Users/nathan/Desktop/AnimalViz/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
