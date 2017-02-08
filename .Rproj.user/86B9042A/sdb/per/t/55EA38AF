@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "\n# gets animal data from King County website\ngetData <- function() {\n  url <-  \"https://data.kingcounty.gov\"\n  path <- \"resource/murn-chih.json\"\n  raw.result <- GET(url=url,path=path)\n  raw.result.content <- rawToChar(raw.result$content)\n  content <- fromJSON(raw.result.content)\n    return(content)\n}\n\n\n\n",
+    "contents" : "\n# gets animal data from King County website\ngetData <- function() {\n  url <-  \"https://data.kingcounty.gov\"\n  path <- \"resource/murn-chih.json\"\n  raw.result <- GET(url=url,path=path)\n  raw.result.content <- rawToChar(raw.result$content)\n  content <- fromJSON(raw.result.content)\n  names(content)[names(content)==\"obfuscated_longitude\"] <- \"long\"\n  names(content)[names(content)==\"obfuscated_latitude\"] <- \"lat\"\n    return(content)\n}\n\n\n\n",
     "created" : 1486280352385.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4291359351",
+    "hash" : "963931050",
     "id" : "55EA38AF",
-    "lastKnownWriteTime" : 1486270275,
-    "last_content_update" : 1486270275,
+    "lastKnownWriteTime" : 1486536599,
+    "last_content_update" : 1486536599073,
     "path" : "C:/Users/nathan/Desktop/AnimalViz/www/helpers.R",
     "project_path" : "www/helpers.R",
     "properties" : {

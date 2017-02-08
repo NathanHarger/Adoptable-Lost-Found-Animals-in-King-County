@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "#\n# This is the server logic of a Shiny web application. You can run the \n# application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(httr)\nlibrary(jsonlite)\nsource(\"www/helpers.R\")\n\naData <- getData()\n#dataTable <-  table(aData$animal_breed,aData$city) \n\n# Define server logic required to draw a histogram\nshinyServer(function(input, output) {\n   #1,2,3,4,6,7,8\n  output$tbl = DT::renderDataTable({\n    datatable(\n      aData,\n      options=list(  pageLength=400, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),\n      \n      # first element is offset for hidden row identifier\n      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','','Status','','','','','','')\n\n    )\n  })\n  output$mymap <- renderLeaflet({\n    leaflet() %>% addProviderTiles(\"Stamen.TonerLite\") %>%\n      addCircleMarkers(lng=aData$obfuscated_longitude,lat = aData$obfuscated_latitude, radius = 80 ) %>%\n      setView(-98, 38.6, zoom=3)\n  })\n})\n\n\n\n\n\n",
+    "contents" : "#\n# This is the server logic of a Shiny web application. You can run the \n# application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(httr)\nlibrary(jsonlite)\nsource(\"www/helpers.R\")\n\naData <- getData()\n#dataTable <-  table(aData$animal_breed,aData$city) \n\n# Define server logic required to draw a histogram\nshinyServer(function(input, output) {\n\n   #1,2,3,4,6,7,8\n  output$tbl = DT::renderDataTable({\n    datatable(\n      aData,\n      options=list(  pageLength=100, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),\n      \n      # first element is offset for hidden row identifier\n      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','','Status','','','','','','')\n\n    )\n  })\n\n  output$mymap <- renderLeaflet({\n    leaflet(na.omit(aData)) %>%\n      addProviderTiles(\"Stamen.TonerLite\",\n                       options = providerTileOptions(noWrap = FALSE)\n      ) %>%\n      addCircleMarkers( radius=10)%>%setView(-120, 46, zoom=8)\n  })\n  \n \n    \n\n    \n  \n  \n  \n\n\n\n})\n\n\n\n\n\n",
     "created" : 1486273684123.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "731990031",
+    "hash" : "2332982958",
     "id" : "9C65F71A",
-    "lastKnownWriteTime" : 1486448234,
-    "last_content_update" : 1486448234776,
+    "lastKnownWriteTime" : 1486539699,
+    "last_content_update" : 1486539699213,
     "path" : "C:/Users/nathan/Desktop/AnimalViz/server.R",
     "project_path" : "server.R",
     "properties" : {

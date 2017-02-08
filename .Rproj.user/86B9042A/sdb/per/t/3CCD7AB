@@ -1,14 +1,14 @@
 {
     "collab_server" : "",
-    "contents" : "\n#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(leaflet)\nlibrary(DT)\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  titlePanel(\"King County Lost, Found, Adoptable Pet Data\"),\n  sidebarLayout(\n  \n  sidebarPanel(\n  ),\n  mainPanel(\n    tabsetPanel(\n  # Application title\n\n  \n  tabPanel(\"Map\",leafletOutput(\"mymap\")),\n  \n  tabPanel(\"Table\",dataTableOutput('tbl'))\n    )\n\n  )\n\n    \n)\n)\n  \n    \n    \n)\n",
+    "contents" : "\n#\n# This is the user-interface definition of a Shiny web application. You can\n# run the application by clicking 'Run App' above.\n#\n# Find out more about building applications with Shiny here:\n# \n#    http://shiny.rstudio.com/\n#\n\nlibrary(shiny)\nlibrary(leaflet)\nlibrary(DT)\n# Define UI for application that draws a histogram\nshinyUI(fluidPage(\n  titlePanel(\"King County Lost, Found, Adoptable Pet Data\"),\n  sidebarLayout(\n  \n  sidebarPanel(\n    selectInput(\"What\", \n                label = \"Choose something to display\",\n                choices = c(\"Percent White\", \"Percent Black\",\n                            \"Percent Hispanic\", \"Percent Asian\"),\n                selected = \"Percent White\")  ,\n  \n \n  selectInput(\"Where\", \n              label = \"Choose a location to norrow the search\",\n              choices = c(\"Percent White\", \"Percent Black\",\n                          \"Percent Hispanic\", \"Percent Asian\"),\n              selected = \"Percent White\")  ,\n  sliderInput(\"When\", \"Choose year range to display\", sep = \"\", animate=TRUE,\n              min = 2013, max = 2017, value = c(2013, 2017))),\n  \n  \n  mainPanel(\n    tabsetPanel(\n  # Application title\n\n  \n  tabPanel(\"Map\",leafletOutput(\"mymap\"),   actionButton(\"recalc\", \"New points\")\n\n),\n  \n  tabPanel(\"Table\",dataTableOutput('tbl'))\n    )\n  \n\n  )\n\n    \n)\n)\n  \n    \n    \n)\n",
     "created" : 1486429403747.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1499359681",
+    "hash" : "1729139523",
     "id" : "3CCD7AB",
-    "lastKnownWriteTime" : 1486441369,
-    "last_content_update" : 1486441369294,
+    "lastKnownWriteTime" : 1486534097,
+    "last_content_update" : 1486534097892,
     "path" : "C:/Users/nathan/Desktop/AnimalViz/ui.R",
     "project_path" : "ui.R",
     "properties" : {
