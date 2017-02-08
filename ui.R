@@ -17,16 +17,34 @@ shinyUI(fluidPage(
   sidebarLayout(
   
   sidebarPanel(
-  ),
+    selectInput("What", 
+                label = "Choose something to display",
+                choices = c("Percent White", "Percent Black",
+                            "Percent Hispanic", "Percent Asian"),
+                selected = "Percent White")  ,
+  
+ 
+  selectInput("Where", 
+              label = "Choose a location to norrow the search",
+              choices = c("Percent White", "Percent Black",
+                          "Percent Hispanic", "Percent Asian"),
+              selected = "Percent White")  ,
+  sliderInput("When", "Choose year range to display", sep = "", animate=TRUE,
+              min = 2013, max = 2017, value = c(2013, 2017))),
+  
+  
   mainPanel(
     tabsetPanel(
   # Application title
 
   
-  tabPanel("Map",leafletOutput("mymap")),
+  tabPanel("Map",leafletOutput("mymap"),   actionButton("recalc", "New points")
+
+),
   
   tabPanel("Table",dataTableOutput('tbl'))
     )
+  
 
   )
 

@@ -17,22 +17,37 @@ aData <- getData()
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+
    #1,2,3,4,6,7,8
   output$tbl = DT::renderDataTable({
     datatable(
       aData,
-      options=list(  pageLength=400, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),
+      options=list(  pageLength=100, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),
       
       # first element is offset for hidden row identifier
       colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','','Status','','','','','','')
 
     )
   })
+
   output$mymap <- renderLeaflet({
-    leaflet() %>% addProviderTiles("Stamen.TonerLite") %>%
-      addCircleMarkers(lng=aData$obfuscated_longitude,lat = aData$obfuscated_latitude, radius = 80 ) %>%
-      setView(-98, 38.6, zoom=3)
+    leaflet(na.omit(aData)) %>%
+      addProviderTiles("Stamen.TonerLite",
+                       options = providerTileOptions(noWrap = FALSE)
+      ) %>%
+      addCircleMarkers( radius=10)%>%setView(-120, 46, zoom=8)
   })
+  
+ 
+    
+
+    
+  
+  
+  
+
+
+
 })
 
 
