@@ -29,7 +29,7 @@ shinyUI(fluidPage(
                           "Percent Hispanic", "Percent Asian"),
               selected = "Percent White")  ,
   sliderInput("When", "Choose year range to display", sep = "", animate=TRUE,
-              min = 2013, max = 2017, value = c(2013, 2017))),
+              min = 2013, max = 2017, value = 2013)),
   
   
   mainPanel(

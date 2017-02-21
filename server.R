@@ -12,20 +12,49 @@ library(httr)
 library(jsonlite)
 source("www/helpers.R")
 
-
-
 aData <- getData()
 
+dogCountTable <-function()
+{
+  df <- table(aData$city)
+  df <- as.data.frame(df)
+  cityList <- getCityList()
+
+  #Var1 is the city column
+  indecies <- which(tolower(cityList) %in% tolower(df$Var1) )
+  df <- subset(df, tolower(df$Var1) %in% tolower(cityList))
+  
+  
+  latList <- getLat()
+  
+  longList <- getLong()
+
+  
+  lat <- c()
+  long <- c()
+  for(i in indecies)
+  {
+     lat[length(lat)+1] = latList[i]
+    
+     long[length(long)+1] = longList[i]
+    
+  
+  }
+
+ df[["lat"]] <- lat
+  df[["lng"]] <-  long
+   return(df)
+  
+}
 #dataTable <-  table(aData$animal_breed,aData$city) 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  
-  
-  filteredData <- reactive({
-    aData[aData$date >=  input$When[1] & aData$date <= input$When[2],]
-  })
- 
+  filteredData <- function()
+  {
+    data <- dogCountTable()
+    return(data[data$date == input$When,])
+  }
    #1,2,3,4,6,7,8
   output$tbl = DT::renderDataTable({
     datatable(
@@ -39,64 +68,20 @@ shinyServer(function(input, output) {
   })
 
   output$mymap <- renderLeaflet({
-    leaflet(dogCountTable()) %>%
-      addProviderTiles("Hydda.Full",
+    leaflet(filteredData()) %>%
+      addProviderTiles("Stamen.TonerLite",
                        options = providerTileOptions(noWrap = TRUE)
-      ) 
-     
-  })
-  
- 
-  observe({
-    
-    
-    leafletProxy("mymap", data = dogCountTable()) %>%
-     
+      ) %>%
       addCircles(popup=~as.character(Var1), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
   })
   
+ 
+    
 
     
   
   
-  dogCountTable <-function()
-  {
   
-    df <- table(filteredData()$city)
-    df <- as.data.frame(df)
-    cityList <- getCityList()
-    View(df)
-    #Var1 is the city column
-    indecies <- which(  tolower(cityList) %in% tolower(df$Var1))
-    df <- subset(df, tolower(df$Var1) %in% tolower(cityList))
-    
-    
-    latList <- getLat()
-    
-    longList <- getLong()
-    
-    
-    lat <- c()
-    long <- c()
-    
-    print(indecies)
-    for(i in indecies)
-    {
-      
-      lat[length(lat)+1] = latList[i]
-      
-      long[length(long)+1] = longList[i]
-      
-      
-    }
-    print(lat)
-    
-    df[["lat"]] <- lat
-    df[["lng"]] <-  long
-    View(df)
-    return(df)
-    
-  }
 
 
 
