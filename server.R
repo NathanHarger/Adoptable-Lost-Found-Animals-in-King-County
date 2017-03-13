@@ -14,20 +14,23 @@ source("www/helpers.R")
 
 aData <- getData()
 
+cityList <- getCityList()
+
+latList <- getLat()
+
+longList <- getLong()
+
 dogCountTable <-function()
 {
+  
   df <- table(aData$city)
   df <- as.data.frame(df)
-  cityList <- getCityList()
 
   #Var1 is the city column
   indecies <- which(tolower(cityList) %in% tolower(df$Var1) )
   df <- subset(df, tolower(df$Var1) %in% tolower(cityList))
   
-  
-  latList <- getLat()
-  
-  longList <- getLong()
+
 
   
   lat <- c()
@@ -46,44 +49,112 @@ dogCountTable <-function()
    return(df)
   
 }
+ax <- list(
+  title = "",
+  zeroline = FALSE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+calculatePercentDog <- function()
+{
+  df <- table(aData$animal_type)
+  loc <- grep("Dog",names(df), value=TRUE)
+  print(df)
+  dogTotal <- 0
+  
+  for(val in loc){
+    dogTotal = dogTotal + df[[val]]
+  }
+  total <- sum(df)
+  
+  return(ceiling(dogTotal/total *100))
+}
+
+breedSummary <- function()
+{
+
+df <-table(aData$animal_breed)
+
+df[["American Pit Bull Terrier"]] <- df[["American Pit Bull Terrier"]] + df[["Pit Bull"]]
+
+  loc <- which(names(df) == "Pit Bull")
+ df <- df[-c(loc)]
+ 
+df["Chihuahua"] <- df[["Chihuahua - Long Haired"]] + df[["Chihuahua - Smooth Coated"]]
+
+ 
+
+ loc <- which(names(df) %in% c("Chihuahua - Long Haired","Chihuahua - Smooth Coated" ))
+ 
+ df <- df[-c(loc)]
+ 
+ 
+ 
+  return(df)
+  
+}
+filterData <- function()
+{
+  #d<-aData[as.numeric(format(aData$date,'%Y')) == input$When,]
+  
+  return(aData)
+}
+citySummary <- function()
+{
+  df <- table(aData$city)
+  return(df)
+  
+}
+
+
 #dataTable <-  table(aData$animal_breed,aData$city) 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  filteredData <- function()
-  {
-    data <- dogCountTable()
-    return(data[data$date == input$When,])
-  }
+  
+  
+  breedPieData <- breedSummary()
+  output$breedPie <- renderPlot({
+      pie(breedPieData[breedPieData > 5], main="Top Breeds" )
+    
+    
+  })
+  output$breedType <- flexdashboard::renderGauge({
+    gauge(calculatePercentDog(), min = 0, max = 100, symbol = '%', label = "Percent Dog",gaugeSectors(
+      success = c(100, 6), warning = c(5,1), danger = c(0, 1), colors = c("#CC6699")
+    ))
+    
+  })
+  output$cityPie <- renderPlot({
+  
+    data <- citySummary()
+    pie(data[data>5], main="Top Cities")
+  })
+  
    #1,2,3,4,6,7,8
   output$tbl = DT::renderDataTable({
     datatable(
       aData,
-      options=list(  pageLength=100, scrollY='400px',columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))),
-      
+      options=list(  pageLength=100, scrollY='400px', scrollX ='400px')
+     # columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))
       # first element is offset for hidden row identifier
-      colnames = c('Age', 'Breed', 'Color', 'Sex','','Name','Species','','','','','','','','','','','','','','','','','Status','','','','','','')
+      
 
     )
   })
-
+  observe({
+    filteredData <- filterData()
   output$mymap <- renderLeaflet({
-    leaflet(filteredData()) %>%
+    
+    leaflet(dogCountTable()) %>%
       addProviderTiles("Stamen.TonerLite",
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
       addCircles(popup=~as.character(Var1), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
+  
   })
-  
- 
-    
-
-    
-  
-  
-  
-
-
+  })
 
 })
 

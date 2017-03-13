@@ -10,47 +10,42 @@
 library(shiny)
 library(leaflet)
 library(DT)
+library(plotly)
+library(flexdashboard)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
-  titlePanel("King County Lost, Found, Adoptable Pet Data"),
-  sidebarLayout(
-  
-  sidebarPanel(
-    selectInput("What", 
-                label = "Choose something to display",
-                choices = c("Percent White", "Percent Black",
-                            "Percent Hispanic", "Percent Asian"),
-                selected = "Percent White")  ,
-  
+  h4("King County Lost, Found, Adoptable Pet Data"),
  
-  selectInput("Where", 
-              label = "Choose a location to norrow the search",
-              choices = c("Percent White", "Percent Black",
-                          "Percent Hispanic", "Percent Asian"),
-              selected = "Percent White")  ,
-  sliderInput("When", "Choose year range to display", sep = "", animate=TRUE,
-              min = 2013, max = 2017, value = 2013)),
+  
+
   
   
-  mainPanel(
+  
     tabsetPanel(
+      
+      
   # Application title
 
   
-  tabPanel("Map",leafletOutput("mymap")
+  tabPanel("Map",
+    
+    
+ 
+           
+    
 
-),
+  column( 12,leafletOutput("mymap"),splitLayout(cellWidths = c("33%", "33%","33%"),cellHeights = c("33%", "33%","33%"),plotOutput("cityPie"),flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie")))
+
+  ),
   
   tabPanel("Table",dataTableOutput('tbl'))
-    )
+   
+
+)
+
+))
+
   
 
-  )
 
     
-)
-)
-  
-    
-    
-)
