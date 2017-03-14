@@ -147,10 +147,8 @@ shinyServer(function(input, output) {
     filteredData <- filterData()
   output$mymap <- renderLeaflet({
     
-    leaflet(dogCountTable()) %>%
-      addProviderTiles("Stamen.TonerLite",
-                       options = providerTileOptions(noWrap = TRUE)
-      ) %>%
+    leaflet(dogCountTable()) %>% addTiles() %>%
+    fitBounds(~min(lng),~min(lat),~max(lng), ~max(lat)) %>%
       addCircles(popup=~as.character(Var1), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
   
   })
