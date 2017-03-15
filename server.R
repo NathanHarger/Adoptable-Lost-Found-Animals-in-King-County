@@ -20,6 +20,18 @@ latList <- getLat()
 
 longList <- getLong()
 
+
+content <- function(city)
+  {
+  print(city)
+  result <- paste(sep = "<br/>",
+                 "<b><a href='http://www.samurainoodle.com'>Samurai Noodle</a></b>",
+                 "606 5th Ave. S",
+                 "Seattle, WA 98138")
+  return(result)
+}
+
+
 dogCountTable <-function()
 {
   
@@ -60,7 +72,6 @@ calculatePercentDog <- function()
 {
   df <- table(aData$animal_type)
   loc <- grep("Dog",names(df), value=TRUE)
-  print(df)
   dogTotal <- 0
   
   for(val in loc){
@@ -116,7 +127,7 @@ shinyServer(function(input, output) {
   
   breedPieData <- breedSummary()
   output$breedPie <- renderPlot({
-      pie(breedPieData[breedPieData > 5], main="Top Breeds" )
+      pie(breedPieData[breedPieData > 5], main="Top Breeds", col=rainbow(length(breedPieData)))
     
     
   })
@@ -129,15 +140,15 @@ shinyServer(function(input, output) {
   output$cityPie <- renderPlot({
   
     data <- citySummary()
-    pie(data[data>5], main="Top Cities")
+    pie(data[data>5], main="Top Cities", col=rainbow(length(data))) 
   })
   
    #1,2,3,4,6,7,8
   output$tbl = DT::renderDataTable({
     datatable(
       aData,
-      options=list(  pageLength=100, scrollY='400px', scrollX ='400px')
-     # columnDefs = list(list(visible=FALSE,targets=c(0,5, 8:23,25,26,27:30)))
+      options=list(  pageLength=100, scrollY='500', scrollX ='500',
+      columnDefs = list(list(visible=FALSE,targets=c(24,25))))
       # first element is offset for hidden row identifier
       
 
@@ -146,10 +157,10 @@ shinyServer(function(input, output) {
   observe({
     filteredData <- filterData()
   output$mymap <- renderLeaflet({
-    
+    data <- dogCountTable()
     leaflet(dogCountTable()) %>% addTiles() %>%
     fitBounds(~min(lng),~min(lat),~max(lng), ~max(lat)) %>%
-      addCircles(popup=~as.character(Var1), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
+      addCircles(popup=content(data[["Var1"]]), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
   
   })
   })

@@ -5,7 +5,7 @@
 # Find out more about building applications with Shiny here:
 # 
 #    http://shiny.rstudio.com/
-#
+#absolutePanel
 
 library(shiny)
 library(leaflet)
@@ -13,37 +13,53 @@ library(DT)
 library(plotly)
 library(flexdashboard)
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  h4("King County Lost, Found, Adoptable Pet Data"),
+shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE,
+  
  
   
 
   
   
   
-    tabsetPanel(
       
       
   # Application title
-
+     tabPanel("Map",
+              
+              
+              tags$head(tags$style(
+                HTML('
+                     #sidebar {
+                     background-color: #FFFFFF;
+                     opacity: .9;
+                     },
+                     
+                     .navbar{
+                      background-color: #003366;
+                     }'
+         
+                )
+                )),
+                
+                
+     leafletOutput("mymap", width="100%", height = "900"),
   
-  tabPanel("Map",
+      absolutePanel( id="sidebar" ,
+                    top = 70, left = "auto", right = 20, bottom = "auto",
+                    width = 330, height = 900,
     
     
  
            
     
 
-  column( 12,leafletOutput("mymap"),splitLayout(cellWidths = c("33%", "33%","33%"),cellHeights = c("33%", "33%","33%"),plotOutput("cityPie"),flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie")))
+  plotOutput("cityPie",height = "40%", width="100%"), flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie",height = "40%",width="100%")
 
-  ),
-  
+  )),
+     
   tabPanel("Table",dataTableOutput('tbl'))
-   
-
+   )
 )
-
-))
 
   
 
