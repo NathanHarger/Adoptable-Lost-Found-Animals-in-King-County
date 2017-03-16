@@ -30,12 +30,15 @@ shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE
               tags$head(tags$style(
                 HTML('
                      #sidebar {
-                     background-color: #FFFFFF;
-                     opacity: .9;
-                     },
+                      background-color: #FFFFFF;
+                      opacity: .85;
+border-style: dotted;
+border-width: 1px
+
+                     }
                      
-                     .navbar{
-                      background-color: #003366;
+                     #copyright{
+                      font-size: x-small;
                      }'
          
                 )
@@ -43,10 +46,11 @@ shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE
                 
                 
      leafletOutput("mymap", width="100%", height = "900"),
-  
+     div("Data Provided by:" ,a(href="https://data.kingcounty.gov/Pets/Lost-found-adoptable-pets/yaai-7frk", em("Regional Naimal Services of King County")), id = "copyright"),
+     
       absolutePanel( id="sidebar" ,
                     top = 70, left = "auto", right = 20, bottom = "auto",
-                    width = 330, height = 900,
+                    width = 330, height = 900, 
     
     
  
@@ -59,6 +63,7 @@ shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE
      
   tabPanel("Table",dataTableOutput('tbl'))
    )
+  
 )
 
   

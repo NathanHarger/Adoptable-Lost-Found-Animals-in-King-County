@@ -21,16 +21,36 @@ latList <- getLat()
 longList <- getLong()
 
 
-content <- function(city)
+content <- function(city,freq)
   {
-  print(city)
-  result <- paste(sep = "<br/>",
-                 "<b><a href='http://www.samurainoodle.com'>Samurai Noodle</a></b>",
-                 "606 5th Ave. S",
-                 "Seattle, WA 98138")
+  result <- paste( sep="<br/>",
+                 "<b><i>",city, "</i></b>", 
+                  getAnimalDistribution(city,freq),paste("<p> Total: ", freq, "</p>"))
+                 
+                 
+  
+
   return(result)
 }
 
+getAnimalDistribution <- function(city,freq)
+{  
+  animalTypeTable <- table(aData$city,aData$animal_type)
+ 
+  row <- animalTypeTable[city,]
+  result <- ""
+  names <- colnames(row)
+  for (cn in colnames(row))
+  {
+
+
+    
+    result <- paste(result,cn, ":", " ", row[city,cn], "<br/>")
+
+  }
+  return(result)
+
+}
 
 dogCountTable <-function()
 {
@@ -148,7 +168,7 @@ shinyServer(function(input, output) {
     datatable(
       aData,
       options=list(  pageLength=100, scrollY='500', scrollX ='500',
-      columnDefs = list(list(visible=FALSE,targets=c(24,25))))
+      columnDefs = list(list(visible=FALSE,targets=c(5,13,14,21,27,28))))
       # first element is offset for hidden row identifier
       
 
@@ -160,7 +180,7 @@ shinyServer(function(input, output) {
     data <- dogCountTable()
     leaflet(dogCountTable()) %>% addTiles() %>%
     fitBounds(~min(lng),~min(lat),~max(lng), ~max(lat)) %>%
-      addCircles(popup=content(data[["Var1"]]), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
+      addCircles(popup=content(as.character(data$Var1), data$Freq), radius=  ~Freq*100, stroke = TRUE, weight=2, fillOpacity = 0.5)
   
   })
   })
