@@ -14,50 +14,43 @@ library(plotly)
 library(flexdashboard)
 # Define UI for application that draws a histogram
 shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE,
-  
- 
-  
-
-  
-  
-  
-      
-      
-  # Application title
+# Application title
      tabPanel("Map",
-              
-              
               tags$head(tags$style(
                 HTML('
                      #sidebar {
                       background-color: #FFFFFF;
                       opacity: .85;
-border-style: dotted;
-border-width: 1px
-
                      }
                      
                      #copyright{
                       font-size: x-small;
-                     }'
+                     }
+                   
+                     #mymap{
+                   height:89vh !important;
+                  
+                      }
+                     '
          
                 )
                 )),
                 
-                
-     leafletOutput("mymap", width="100%", height = "900"),
-     div("Data Provided by:" ,a(href="https://data.kingcounty.gov/Pets/Lost-found-adoptable-pets/yaai-7frk", em("Regional Naimal Services of King County")), id = "copyright"),
-     
+          
+     leafletOutput("mymap"),
+     div("Data Provided by:" ,a(href="https://data.kingcounty.gov/Pets/Lost-found-adoptable-pets/yaai-7frk", em("Regional Animal Services of King County")), id = "copyright"),
+    
+    
       absolutePanel( id="sidebar" ,
-                    top = 70, left = "auto", right = 20, bottom = "auto",
-                    width = 330, height = 900, 
+                    top = 30, left = "auto", right = 20, bottom = 0,width="30%", height = "89%",
+                      
     
     
  
            
     
 
-  plotOutput("cityPie",height = "40%", width="100%"), flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie",height = "40%",width="100%")
+  plotOutput("cityPie", height ="40%"), flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie", height="40%")
 
   )),
      
