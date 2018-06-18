@@ -13,9 +13,10 @@ library(DT)
 library(plotly)
 library(flexdashboard)
 # Define UI for application that draws a histogram
-shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE,
+shinyUI(bootstrapPage(
 # Application title
-     tabPanel("Map",
+               tags$head(tags$style(".leaflet-control-zoom { display: none; }")),
+              tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
               tags$head(tags$style(
                 HTML('
                      #sidebar {
@@ -27,37 +28,29 @@ shinyUI(navbarPage("Adoptable, Lost, Found Animals in King County", inverse=TRUE
                       font-size: x-small;
                      }
                    
-                     #mymap{
-                   height:89vh !important;
-                  
-                      }
+                    #title{background-color: #41f4bb;text-transform:capitalize; font-size: xx-large; text-align:center;}
                      '
          
                 )
                 )),
-                
+              leafletOutput("mymap",width = "100%", height = "100%"),
+              
+
+    
+    
+  absolutePanel( id="sidebar" ,
+                    top = "5%", left = "auto", right = 0, bottom = 0,width="30%", height = "95%",
+
+          plotOutput("cityPie"), flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie",height='35%'),
+          div( "Data Provided by:" ,a(href="https://data.kingcounty.gov/Pets/Lost-found-adoptable-pets/yaai-7frk", em("Regional Animal Services of King County")), id = "copyright")
           
-     leafletOutput("mymap"),
-     div("Data Provided by:" ,a(href="https://data.kingcounty.gov/Pets/Lost-found-adoptable-pets/yaai-7frk", em("Regional Animal Services of King County")), id = "copyright"),
-    
-    
-      absolutePanel( id="sidebar" ,
-                    top = 30, left = "auto", right = 20, bottom = 0,width="30%", height = "89%",
-                      
-    
-    
- 
-           
-    
-
-  plotOutput("cityPie", height ="40%"), flexdashboard::gaugeOutput("breedType"),plotOutput("breedPie", height="40%")
-
-  )),
-     
-  tabPanel("Table",dataTableOutput('tbl'))
-   )
+  ),
+  absolutePanel(id="title",top = 0, left = 0, right = "auto", bottom = 0,width="100%", height = "5%", div("Adoptable, Lost, Found Animals in King County") )
   
-)
+
+   
+  
+))
 
   
 

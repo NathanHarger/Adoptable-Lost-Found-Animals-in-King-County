@@ -164,17 +164,6 @@ shinyServer(function(input, output) {
     pie(data[data>5], main="Top Cities", col=rainbow(length(data))) 
   })
   
-  #1,2,3,4,6,7,8
-  output$tbl = DT::renderDataTable({
-    datatable(
-      aData,
-      options=list(  pageLength=100, scrollY='500', scrollX ='500',
-                     columnDefs = list(list(visible=FALSE,targets=c(5,13,14,21,27,28))))
-      # first element is offset for hidden row identifier
-      
-      
-    )
-  })
   observe({
     filteredData <- filterData()
     output$mymap <- renderLeaflet({
