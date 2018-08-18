@@ -25,7 +25,7 @@ longList <- getLong()
 
 content <- function(city, freq)
 {
-  result <- paste(
+   result <- paste(
     sep = "<br/>",
     "<b><i>",
     city,
@@ -43,14 +43,12 @@ content <- function(city, freq)
 getAnimalDistribution <- function(city, freq)
 {
   animalTypeTable <- table(aData$city, aData$animal_type)
-  
   row <- animalTypeTable[city,]
   result <- ""
   names <- colnames(row)
-  for (cn in colnames(row))
+  for (cn in names)
   {
     result <- paste(result, cn, ":", " ", row[city, cn], "<br/>")
-    
   }
   return(result)
   
@@ -144,11 +142,9 @@ shinyServer(function(input, output) {
     )
     
   })
-  print(dogCountTable())
-  
+
   pal <- colorQuantile("Reds", dogCountTable()$Freq, n = 4)
   cityAnimalDataFilter <- function(freq) {
-    print(freq)
     r <- which(freq != 0)
     return(r)
   }
@@ -164,7 +160,7 @@ shinyServer(function(input, output) {
       leaflet(dogCountTable()) %>% addTiles() %>%
         fitBounds(~ min(lng),  ~ min(lat),  ~ max(lng), ~ max(lat)) %>%
         addCircleMarkers(
-          popup = content(as.character(data$Var1[cityAnimalDataFilter(data$Var1)]), data$Freq[cityAnimalDataFilter(data$Freq)]),
+          popup = content(as.character(data$Var1), data$Freq),
           stroke = FALSE,
           fillOpacity = 0.5,
           color = ~ pal(Freq)
