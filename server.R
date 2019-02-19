@@ -143,7 +143,7 @@ shinyServer(function(input, output) {
     
   })
 
-  pal <- colorQuantile("Reds", dogCountTable()$Freq, n = 4)
+  pal <- colorNumeric("YlOrRd", 1:38, reverse = FALSE)
   cityAnimalDataFilter <- function(freq) {
     r <- which(freq != 0)
     return(r)
@@ -161,9 +161,9 @@ shinyServer(function(input, output) {
         fitBounds(~ min(lng),  ~ min(lat),  ~ max(lng), ~ max(lat)) %>%
         addCircleMarkers(
           popup = content(as.character(data$Var1), data$Freq),
-          stroke = FALSE,
-          fillOpacity = 0.5,
-          color = ~ pal(Freq)
+          stroke = TRUE,
+          fillOpacity = 0.75,
+          color = ~ pal(data$Freq)
           
         )
       
